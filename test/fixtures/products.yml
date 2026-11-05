@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+weekly_planner:
+  category: notebooks
+  name: Weekly Planner
+  description: An undated planner with room for weekly priorities.
+  price_cents: 1595
+
+fine_gel_pen:
+  category: pens
+  name: Fine Gel Pen
+  description: A fine-tip black gel pen for everyday writing.
+  price_cents: 495

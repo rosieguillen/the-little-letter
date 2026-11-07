@@ -21,13 +21,14 @@
         <td><%= link_to product.name, product_path(product) %></td>
         <td><%= product.category.name %></td>
         <td><%= render "products/price", product: product %></td>
-        <td><%= link_to "Edit", edit_admin_product_path(product) %></td>
+        <td><%= link_to "Edit", edit_admin_product_path(product) %>
+            <%= button_to "Delete", admin_product_path(product), method: :delete,
+            form: { data: { turbo_confirm: "Delete this product?" } } %> </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <%= paginate @products %>
-
 
 </main>

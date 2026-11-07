@@ -21,6 +21,6 @@ get "categories/:slug", to: "storefront#index", as: :category
   # root "posts#index"
     scope path: "/admin", as: "admin" do
     resources :products, controller: "admin_products",
-      only: [:new, :create, :edit, :update]
+      only: [:new, :create, :edit, :update, :destroy]
   end
 end

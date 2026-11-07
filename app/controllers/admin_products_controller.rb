@@ -29,6 +29,12 @@ def update
   end
 end
 
+def destroy
+  product = Product.find(params[:id])
+  product.destroy!
+  redirect_to admin_dashboard_path, status: :see_other
+end
+
   private
 
   def product_params

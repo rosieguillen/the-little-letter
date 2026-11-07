@@ -11,7 +11,14 @@
       <% @products.each do |product| %>
         <li>
           <%= link_to product.name, product_path(product) %>
-          — Quantity: <%= @quantities.fetch(product.id.to_s) %>
+          <%= form_with url: cart_item_path(product), method: :patch do |form| %>
+          <%= form.label :quantity, "Quantity", for: "quantity_#{product.id}" %>
+          <%= form.number_field :quantity, id: "quantity_#{product.id}",
+            value: @quantities.fetch(product.id.to_s), min: 1, max: 99, required: true %>
+          <%= form.submit "Update quantity" %>
+        <% end %>
+
+<%= button_to "Remove", cart_item_path(product), method: :delete %>
         </li>
       <% end %>
     </ul>

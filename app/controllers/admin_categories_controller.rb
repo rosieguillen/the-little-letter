@@ -17,4 +17,18 @@ class AdminCategoriesController < AdminBaseController
                 render :index, status: :unprocessable_entity
             end
         end
+
+        def edit
+            @category = Category.find(params[:id])
+        end
+
+        def update
+            @category = Category.find(params[:id])
+
+            if @category.update(params.require(:category).permit(:name))
+                redirect_to admin_categories_path, status: :see_other
+            else
+                render :edit, status: :unprocessable_entity
+            end
+        end
 end

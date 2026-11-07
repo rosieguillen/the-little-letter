@@ -23,6 +23,6 @@ get "categories/:slug", to: "storefront#index", as: :category
     resources :products, controller: "admin_products",
       only: [:new, :create, :edit, :update, :destroy]
     resources :categories, controller: "admin_categories",
-      only: [:index, :create]
+      only: [:index, :create, :edit, :update]
   end
 end

@@ -1,0 +1,7 @@
+
+<main>
+  <h1>Edit <%= @product.name %></h1>
+  <p><%= link_to "Back to dashboard", admin_dashboard_path %></p>
+
+  <%= render "form", form_url: admin_product_path(@product), submit_label: "Save changes" %>
+</main>

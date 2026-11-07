@@ -1,5 +1,5 @@
 
-form_with model: @product, url: form_url do |form| %>
+<%= form_with model: @product, url: form_url do |form| %>
     <p><%= form.label :name %> <%= form.text_field :name, required: true %></p>
     <p><%= form.label :description %> <%= form.text_area :description, required: true %></p>
     <p>
@@ -19,5 +19,5 @@ form_with model: @product, url: form_url do |form| %>
         <%= form.file_field :photo, accept: "image/jpeg,image/png,image/webp" %>
     </p>
 
-    <%= form.submit "Create product" %>
+    <%= form.submit submit_label %>
   <% end %>

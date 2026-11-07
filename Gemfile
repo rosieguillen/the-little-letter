@@ -66,3 +66,5 @@ group :test do
 end
 
 gem "kaminari", "~> 1.3"
+
+gem "bcrypt", "~> 3.1"

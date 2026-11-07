@@ -31,7 +31,7 @@
     <li>
       <h3><%= product.name %></h3>
       <p><%= product.description %></p>
-      <p><%= number_to_currency(product.price_cents / 100.0) %> CAD</p>
+     <%= render "products/price", product: product %>
     </li>
   <% end %>
 </ul>

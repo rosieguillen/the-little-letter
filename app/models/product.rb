@@ -1,7 +1,10 @@
 class Product < ApplicationRecord
   belongs_to :category
 
-  has_one_attached :photo
+  has_one_attached :photo do |attachable|
+    attachable.variant :thumbnail, resize_to_limit: [240, 420]
+    attachable.variant :detail, resize_to_limit: [800, 800]
+  end
   validate :acceptable_photo
 
   validates :name, :description, presence: true

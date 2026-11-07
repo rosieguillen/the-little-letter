@@ -3,9 +3,10 @@
 
   <h1><%= @product.name %></h1>
   <% if @product.photo.attached? %>
-    <%= image_tag @product.photo, alt: @product.name, width: 420 %>
+    <%= image_tag @product.photo.variant(:detail), alt: @product.name,
+      style: "max-width: 100%; height: auto;" %>
   <% end %>
-  
+
   <p><%= @product.category.name %></p>
   <p><%= @product.description %></p>
   <p><%= number_to_currency(@product.price_cents / 100.0) %> CAD</p>

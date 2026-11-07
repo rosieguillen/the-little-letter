@@ -12,6 +12,18 @@
   </ul>
 </nav>
 
+<%= form_with url: root_path, method: :get do |form| %>
+  <%= form.label :q, "Search stationery" %>
+  <%= form.search_field :q, value: @keyword %>
+
+  <%= form.label :category_slug, "Category" %>
+  <%= form.collection_select :category_slug, @categories, :slug, :name,
+    { include_blank: "All categories", selected: @category&.slug } %>
+
+  <%= form.submit "Search" %>
+<% end %>
+
+
 <h2><%= @category ? @category.name : "Shop stationery" %></h2>
 
 <ul>

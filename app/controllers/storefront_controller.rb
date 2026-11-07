@@ -1,10 +1,12 @@
 class StorefrontController < ApplicationController
   def index
     @categories = Category.order(:name)
-    @category = Category.find_by!(slug: params[:slug]) if params[:slug].present?
+    category_slug = params[:slug].presence || params[:category_slug].presence
+    @category = Category.find_by!(slug: category_slug) if category_slug
+    @keyword = params[:q].to_s.strip
 
     products = @category ? @category.products : Product.all
+    products = products.matching(@keyword) if @keyword.present?
     @products = products.order(:name)
-
   end
 end

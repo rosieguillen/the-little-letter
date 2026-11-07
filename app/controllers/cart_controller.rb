@@ -2,6 +2,10 @@ class CartController < ApplicationController
   def show
     @quantities = session[:cart] || {}
     @products = Product.where(id: @quantities.keys).order(:name, :id)
+
+    @subtotal_cents = @products.sum do |product|
+      product.effective_price_cents * @quantities.fetch(product.id.to_s)
+    end
   end
 
   def add

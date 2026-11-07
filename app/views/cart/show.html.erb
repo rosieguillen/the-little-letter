@@ -11,6 +11,9 @@
       <% @products.each do |product| %>
         <li>
           <%= link_to product.name, product_path(product) %>
+          <% quantity = @quantities.fetch(product.id.to_s) %>
+          <p>Unit price: <%= number_to_currency(product.effective_price_cents / 100.0) %> CAD</p>
+          <p>Line total: <%= number_to_currency(product.effective_price_cents * quantity / 100.0) %> CAD</p>
           <%= form_with url: cart_item_path(product), method: :patch do |form| %>
           <%= form.label :quantity, "Quantity", for: "quantity_#{product.id}" %>
           <%= form.number_field :quantity, id: "quantity_#{product.id}",
@@ -18,11 +21,17 @@
           <%= form.submit "Update quantity" %>
         <% end %>
 
-<%= button_to "Remove", cart_item_path(product), method: :delete %>
+        <%= button_to "Remove", cart_item_path(product), method: :delete %>
+
         </li>
       <% end %>
     </ul>
+
+    <p><strong>Subtotal: <%= number_to_currency(@subtotal_cents / 100.0) %> CAD</strong></p>
+
+
   <% else %>
     <p>Your cart is empty.</p>
   <% end %>
+
 </main>

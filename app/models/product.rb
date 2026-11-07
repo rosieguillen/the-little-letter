@@ -18,6 +18,10 @@ class Product < ApplicationRecord
     where("products.name ILIKE :pattern OR products.description ILIKE :pattern", pattern: pattern)
   end
 
+  def effective_price_cents
+      sale_price_cents || price_cents
+  end
+
   private
 
   def acceptable_photo

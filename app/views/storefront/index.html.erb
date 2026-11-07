@@ -3,7 +3,16 @@
   <p>A Winnipeg stationery shop for everyday notes, plans, and gifts.</p>
 </main>
 
-<h2>Shop stationery</h2>
+<nav aria-label="Product categories">
+  <ul>
+    <li><%= link_to "All stationery", root_path %></li>
+    <% @categories.each do |category| %>
+      <li><%= link_to category.name, category_path(category.slug) %></li>
+    <% end %>
+  </ul>
+</nav>
+
+<h2><%= @category ? @category.name : "Shop stationery" %></h2>
 
 <ul>
   <% @products.each do |product| %>

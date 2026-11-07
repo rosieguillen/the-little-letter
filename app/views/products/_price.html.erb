@@ -1,0 +1,8 @@
+<p>
+<% if product.sale_price_cents.present? %>
+    <del><%= number_to_currency(product.price_cents / 100.0) %></del>
+    <strong><%= number_to_currency(product.sale_price_cents / 100.0) %></strong>
+<% else %>
+    <strong><%= number_to_currency(product.price_cents / 100.0) %></strong>
+<% end %>
+</p>

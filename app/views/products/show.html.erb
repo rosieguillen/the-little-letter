@@ -1,0 +1,8 @@
+<main>
+  <p><%= link_to "Back to all stationery", root_path %></p>
+
+  <h1><%= @product.name %></h1>
+  <p><%= @product.category.name %></p>
+  <p><%= @product.description %></p>
+  <p><%= number_to_currency(@product.price_cents / 100.0) %> CAD</p>
+</main>

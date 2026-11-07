@@ -7,7 +7,7 @@ class AdminAccessController < ApplicationController
     
 
     def create
-            credentials = params.expect(admin: [:username, :password])
+        credentials = params.expect(admin: [:username, :password])
         admin = Admin.authenticate_by(
             username: credentials[:username].to_s.strip,
             password: credentials[:password].to_s.strip
@@ -24,6 +24,7 @@ class AdminAccessController < ApplicationController
     end
 
     def show
+          @products = Product.includes(:category).order(:name, :id).page(params[:page]).per(20)
     end
 
     def destroy

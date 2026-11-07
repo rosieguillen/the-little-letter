@@ -1,0 +1,13 @@
+<main>
+  <h1>New product</h1>
+  <p><%= link_to "Back to dashboard", admin_dashboard_path %></p>
+
+  <% if @product.errors.any? %>
+    <ul role="alert">
+      <% @product.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<%= render "form", form_url: admin_products_path, submit_label: "Create product" %>
+</main>

@@ -8,13 +8,19 @@ get "categories/:slug", to: "storefront#index", as: :category
   get "up" => "rails/health#show", as: :rails_health_check
   
   get "admin", to: "admin_access#show", as: :admin_dashboard
-get "admin/sign-in", to: "admin_access#new", as: :admin_sign_in
-post "admin/sign-in", to: "admin_access#create"
-delete "admin/sign-out", to: "admin_access#destroy", as: :admin_sign_out
+  get "admin/sign-in", to: "admin_access#new", as: :admin_sign_in
+  post "admin/sign-in", to: "admin_access#create"
+  delete "admin/sign-out", to: "admin_access#destroy", as: :admin_sign_out
+
+  resources :products, controller: "admin_products", only: [:new, :create, :edit, :update]
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
   # root "posts#index"
+    scope path: "/admin", as: "admin" do
+    resources :products, controller: "admin_products",
+      only: [:new, :create, :edit, :update]
+  end
 end

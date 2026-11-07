@@ -34,6 +34,9 @@
   <% @products.each do |product| %>
     <li>
       <h3><%= product.name %></h3>
+      <% if product.photo.attached? %>
+        <%= image_tag product.photo.variant(:thumbnail), alt: product.name, loading: "lazy" %>
+      <% end %>
       <p><%= product.description %></p>
       <%= render "products/price", product: product %>
     </li>

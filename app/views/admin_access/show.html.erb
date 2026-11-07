@@ -1,0 +1,35 @@
+<main>
+    <h1>Store dashboard</h1>
+    <p>Signed in as <%= @admin.username %>.</p>
+    <%= button_to "Sign out", admin_sign_out_path, method: :delete %>
+
+    <h2>Products</h2>
+
+    <p><%= link_to "New product", new_admin_product_path %></p>
+    <p><%= link_to "Manage categories", admin_categories_path %></p>
+
+<table>
+  <thead>
+    <tr>
+      <th scope="col">Product</th>
+      <th scope="col">Category</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= link_to product.name, product_path(product) %></td>
+        <td><%= product.category.name %></td>
+        <td><%= render "products/price", product: product %></td>
+        <td><%= link_to "Edit", edit_admin_product_path(product) %>
+            <%= button_to "Delete", admin_product_path(product), method: :delete,
+            form: { data: { turbo_confirm: "Delete this product?" } } %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @products %>
+
+</main>

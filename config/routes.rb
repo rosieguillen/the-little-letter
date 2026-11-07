@@ -25,4 +25,7 @@ get "categories/:slug", to: "storefront#index", as: :category
     resources :categories, controller: "admin_categories",
       only: [:index, :create, :edit, :update]
   end
+
+  get "cart", to: "cart#show", as: :cart
+  post "cart/add/:product_id", to: "cart#add", as: :cart_items
 end

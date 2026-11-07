@@ -1,0 +1,21 @@
+<main>
+  <h1>Shopping cart</h1>
+  <p><%= link_to "Continue shopping", root_path %></p>
+
+  <% if flash[:alert] %>
+    <p role="alert"><%= flash[:alert] %></p>
+  <% end %>
+
+  <% if @products.any? %>
+    <ul>
+      <% @products.each do |product| %>
+        <li>
+          <%= link_to product.name, product_path(product) %>
+          — Quantity: <%= @quantities.fetch(product.id.to_s) %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>Your cart is empty.</p>
+  <% end %>
+</main>

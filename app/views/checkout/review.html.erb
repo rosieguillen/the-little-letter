@@ -1,0 +1,13 @@
+
+
+<main>
+  <h1>Review delivery details</h1>
+  <p><%= @details.name %></p>
+  <p>Email: <%= @details.email %></p>
+    <% if @details.phone.present? %>
+    <p>Phone: <%= @details.phone %></p>
+    <% end %>
+  <p><%= @details.street %></p>
+  <p><%= @details.city %>, <%= @details.province %> <%= @details.postal_code %></p>
+  <p><%= link_to "Back to cart", cart_path %></p>
+</main>

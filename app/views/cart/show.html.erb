@@ -29,7 +29,7 @@
 
     <p><strong>Subtotal: <%= number_to_currency(@subtotal_cents / 100.0) %> CAD</strong></p>
 
-
+    <p><%= link_to "Proceed to checkout", checkout_path %></p>
   <% else %>
     <p>Your cart is empty.</p>
   <% end %>

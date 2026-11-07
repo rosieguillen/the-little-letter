@@ -1,0 +1,29 @@
+
+
+<main>
+  <h1>Delivery details</h1>
+  <p><%= link_to "Back to cart", cart_path %></p>
+
+  <% if @details.errors.any? %>
+    <ul role="alert">
+      <% @details.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= form_with model: @details, url: review_checkout_path, data: { turbo: false } do |form| %>
+    <p><%= form.label :name, "Full name" %> <%= form.text_field :name, required: true %></p>
+    <p><%= form.label :email %> <%= form.email_field :email, required: true, autocomplete: "email" %></p>
+    <p><%= form.label :phone, "Phone (optional)" %> <%= form.telephone_field :phone, autocomplete: "tel" %></p>
+    <p><%= form.label :street, "Street address" %> <%= form.text_field :street, required: true %></p>
+    <p><%= form.label :city %> <%= form.text_field :city, required: true %></p>
+    <p><%= form.label :postal_code %> <%= form.text_field :postal_code, required: true %></p>
+    <p>
+      <%= form.label :province, "Province or territory" %>
+      <%= form.select :province, CheckoutDetails::PROVINCE_CODES,
+        { include_blank: "Select one" }, { required: true } %>
+    </p>
+    <%= form.submit "Review delivery details" %>
+  <% end %>
+</main>

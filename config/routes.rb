@@ -28,7 +28,9 @@ get "categories/:slug", to: "storefront#index", as: :category
 
   get "cart", to: "cart#show", as: :cart
   post "cart/items", to: "cart#add", as: :cart_items
-
   patch "cart/items/:product_id", to: "cart#update", as: :cart_item
   delete "cart/items/:product_id", to: "cart#remove"
+
+  get "checkout", to: "checkout#new", as: :checkout
+  post "checkout/review", to: "checkout#review", as: :review_checkout
 end

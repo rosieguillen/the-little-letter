@@ -7,6 +7,6 @@ class StorefrontController < ApplicationController
 
     products = @category ? @category.products : Product.all
     products = products.matching(@keyword) if @keyword.present?
-    @products = products.order(:name)
+    @products = products.order(:name, :id).page(params[:page]).per(12)
   end
 end

@@ -3,16 +3,21 @@ form_with model: @product, url: form_url do |form| %>
     <p><%= form.label :name %> <%= form.text_field :name, required: true %></p>
     <p><%= form.label :description %> <%= form.text_area :description, required: true %></p>
     <p>
-      <%= form.label :category_id, "Category" %>
-      <%= form.collection_select :category_id, Category.order(:name), :id, :name %>
+        <%= form.label :category_id, "Category" %>
+        <%= form.collection_select :category_id, Category.order(:name), :id, :name %>
     </p>
     <p>
-      <%= form.label :price_cents, "Price in cents" %>
-      <%= form.number_field :price_cents, min: 1, required: true %>
+        <%= form.label :price_cents, "Price in cents" %>
+        <%= form.number_field :price_cents, min: 1, required: true %>
     </p>
     <p>
-      <%= form.label :sale_price_cents, "Sale price in cents (optional)" %>
-      <%= form.number_field :sale_price_cents, min: 1 %>
+        <%= form.label :sale_price_cents, "Sale price in cents (optional)" %>
+        <%= form.number_field :sale_price_cents, min: 1 %>
     </p>
+    <p>
+        <%= form.label :photo, "Product photo (optional)" %>
+        <%= form.file_field :photo, accept: "image/jpeg,image/png,image/webp" %>
+    </p>
+
     <%= form.submit "Create product" %>
   <% end %>

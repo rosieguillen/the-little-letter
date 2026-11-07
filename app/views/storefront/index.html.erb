@@ -19,6 +19,10 @@
   <%= form.label :category_slug, "Category" %>
   <%= form.collection_select :category_slug, @categories, :slug, :name,
     { include_blank: "All categories", selected: @category&.slug } %>
+  <%= form.label :filter, "Show" %>
+  <%= form.select :filter,
+    [["All products", "all"], ["On sale", "sale"], ["New Arrivals", "new"]],
+    { selected: @filter } %>
 
   <%= form.submit "Search" %>
 <% end %>
@@ -31,7 +35,7 @@
     <li>
       <h3><%= product.name %></h3>
       <p><%= product.description %></p>
-     <%= render "products/price", product: product %>
+      <%= render "products/price", product: product %>
     </li>
   <% end %>
 </ul>

@@ -8,5 +8,9 @@ class StorefrontController < ApplicationController
     products = @category ? @category.products : Product.all
     products = products.matching(@keyword) if @keyword.present?
     @products = products.order(:name, :id).page(params[:page]).per(12)
+
+    @filter = params[:filter]
+    products = products.where.not(sale_price_cents: nil) if @filter == "sale"
+    products = products.where(created_at: 3.days.ago..) if @filter == "new"
   end
 end

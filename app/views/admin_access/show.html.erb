@@ -1,0 +1,5 @@
+<main>
+  <h1>Store dashboard</h1>
+  <p>Signed in as <%= @admin.username %>.</p>
+  <%= button_to "Sign out", admin_sign_out_path, method: :delete %>
+</main>

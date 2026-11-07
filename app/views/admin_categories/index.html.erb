@@ -1,0 +1,26 @@
+<main>
+  <h1>Manage categories</h1>
+  <p><%= link_to "Back to dashboard", admin_dashboard_path %></p>
+
+  <ul>
+    <% @categories.each do |category| %>
+      <li><%= category.name %></li>
+    <% end %>
+  </ul>
+
+  <h2>Add a category</h2>
+
+  <% if @category.errors.any? %>
+    <ul role="alert">
+      <% @category.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= form_with model: @category, url: admin_categories_path do |form| %>
+    <%= form.label :name, "Category name" %>
+    <%= form.text_field :name, required: true %>
+    <%= form.submit "Add category" %>
+  <% end %>
+</main>

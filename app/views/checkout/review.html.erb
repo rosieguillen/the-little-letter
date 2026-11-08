@@ -9,5 +9,37 @@
     <% end %>
   <p><%= @details.street %></p>
   <p><%= @details.city %>, <%= @details.province %> <%= @details.postal_code %></p>
+
+  <h2>Order summary</h2>
+
+    <ul>
+        <% @invoice.lines.each do |line| %>
+            <li>
+                <%= line[:name] %> —
+                <%= line[:quantity] %> × <%= number_to_currency(line[:unit_price_cents] / 100.0) %>
+                = <%= number_to_currency(line[:total_cents] / 100.0) %> CAD
+            </li>
+        <% end %>
+    </ul>
+
+<p>Subtotal: <%= number_to_currency(@invoice.subtotal_cents / 100.0) %> CAD</p>
+
+<% @invoice.taxes.each do |label, cents| %>
+  <p><%= label %>: <%= number_to_currency(cents / 100.0) %> CAD</p>
+<% end %>
+
+<p><strong>Total: <%= number_to_currency(@invoice.total_cents / 100.0) %> CAD</strong></p>
+
+<% if flash[:alert] %>
+  <p role="alert"><%= flash[:alert] %></p>
+<% end %>
+
+<%= form_with model: @details, url: place_order_path, data: { turbo: false } do |form| %>
+  <% [:name, :email, :phone, :street, :city, :postal_code, :province].each do |field| %>
+    <%= form.hidden_field field %>
+  <% end %>
+  <%= form.submit "Place order" %>
+<% end %>
+
   <p><%= link_to "Back to cart", cart_path %></p>
 </main>

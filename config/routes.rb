@@ -33,4 +33,6 @@ get "categories/:slug", to: "storefront#index", as: :category
 
   get "checkout", to: "checkout#new", as: :checkout
   post "checkout/review", to: "checkout#review", as: :review_checkout
+  post "checkout/place", to: "checkout#create", as: :place_order
+  get "checkout/confirmation", to: "checkout#confirmation", as: :checkout_confirmation
 end

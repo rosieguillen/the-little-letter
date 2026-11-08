@@ -55,3 +55,29 @@ catalogue.each do |category_name, products|
     end
   end
 end
+
+# Code, name, GST, PST/QST, HST
+province_rates = [
+  ["AB", "Alberta",                   "0.05", "0",       "0"],
+  ["BC", "British Columbia",          "0.05", "0.07",    "0"],
+  ["MB", "Manitoba",                  "0.05", "0.07",    "0"],
+  ["NB", "New Brunswick",             "0",    "0",       "0.15"],
+  ["NL", "Newfoundland and Labrador", "0",    "0",       "0.15"],
+  ["NS", "Nova Scotia",               "0",    "0",       "0.14"],
+  ["NT", "Northwest Territories",     "0.05", "0",       "0"],
+  ["NU", "Nunavut",                   "0.05", "0",       "0"],
+  ["ON", "Ontario",                   "0",    "0",       "0.13"],
+  ["PE", "Prince Edward Island",      "0",    "0",       "0.15"],
+  ["QC", "Quebec",                    "0.05", "0.09975", "0"],
+  ["SK", "Saskatchewan",              "0.05", "0.06",    "0"],
+  ["YT", "Yukon",                     "0.05", "0",       "0"]
+]
+
+province_rates.each do |code, name, gst, pst, hst|
+  Province.find_or_create_by!(code: code) do |province|
+    province.name = name
+    province.gst_rate = gst
+    province.pst_rate = pst
+    province.hst_rate = hst
+  end
+end

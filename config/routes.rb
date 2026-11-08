@@ -25,4 +25,14 @@ get "categories/:slug", to: "storefront#index", as: :category
     resources :categories, controller: "admin_categories",
       only: [:index, :create, :edit, :update]
   end
+
+  get "cart", to: "cart#show", as: :cart
+  post "cart/items", to: "cart#add", as: :cart_items
+  patch "cart/items/:product_id", to: "cart#update", as: :cart_item
+  delete "cart/items/:product_id", to: "cart#remove"
+
+  get "checkout", to: "checkout#new", as: :checkout
+  post "checkout/review", to: "checkout#review", as: :review_checkout
+  post "checkout/place", to: "checkout#create", as: :place_order
+  get "checkout/confirmation", to: "checkout#confirmation", as: :checkout_confirmation
 end

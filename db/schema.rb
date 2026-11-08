@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_07_211534) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_08_011321) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -58,6 +58,53 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_07_211534) do
     t.index ["slug"], name: "index_categories_on_slug", unique: true
   end
 
+  create_table "customers", force: :cascade do |t|
+    t.bigint "province_id", null: false
+    t.string "name"
+    t.string "email"
+    t.string "phone"
+    t.string "street"
+    t.string "city"
+    t.string "postal_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["province_id"], name: "index_customers_on_province_id"
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.bigint "product_id"
+    t.string "product_name", null: false
+    t.integer "quantity", null: false
+    t.integer "unit_price_cents", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "order_id", null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.string "name"
+    t.string "email"
+    t.string "phone"
+    t.string "street"
+    t.string "city"
+    t.string "postal_code"
+    t.string "province_code"
+    t.integer "subtotal_cents"
+    t.integer "gst_cents"
+    t.integer "pst_cents"
+    t.integer "hst_cents"
+    t.integer "total_cents"
+    t.decimal "gst_rate", precision: 6, scale: 5, null: false
+    t.decimal "pst_rate", precision: 6, scale: 5, null: false
+    t.decimal "hst_rate", precision: 6, scale: 5, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_orders_on_customer_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.bigint "category_id", null: false
     t.string "name", null: false
@@ -69,7 +116,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_07_211534) do
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
+  create_table "provinces", force: :cascade do |t|
+    t.string "code", null: false
+    t.string "name", null: false
+    t.decimal "gst_rate", precision: 6, scale: 5, default: "0.0", null: false
+    t.decimal "pst_rate", precision: 6, scale: 5, default: "0.0", null: false
+    t.decimal "hst_rate", precision: 6, scale: 5, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_provinces_on_code", unique: true
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "customers", "provinces"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "products", on_delete: :nullify
+  add_foreign_key "orders", "customers"
   add_foreign_key "products", "categories"
 end

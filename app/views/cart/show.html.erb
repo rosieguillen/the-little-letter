@@ -1,0 +1,37 @@
+<main>
+  <h1>Shopping cart</h1>
+  <p><%= link_to "Continue shopping", root_path %></p>
+
+  <% if flash[:alert] %>
+    <p role="alert"><%= flash[:alert] %></p>
+  <% end %>
+
+  <% if @products.any? %>
+    <ul>
+      <% @products.each do |product| %>
+        <li>
+          <%= link_to product.name, product_path(product) %>
+          <% quantity = @quantities.fetch(product.id.to_s) %>
+          <p>Unit price: <%= number_to_currency(product.effective_price_cents / 100.0) %> CAD</p>
+          <p>Line total: <%= number_to_currency(product.effective_price_cents * quantity / 100.0) %> CAD</p>
+          <%= form_with url: cart_item_path(product), method: :patch do |form| %>
+          <%= form.label :quantity, "Quantity", for: "quantity_#{product.id}" %>
+          <%= form.number_field :quantity, id: "quantity_#{product.id}",
+            value: @quantities.fetch(product.id.to_s), min: 1, max: 99, required: true %>
+          <%= form.submit "Update quantity" %>
+        <% end %>
+
+        <%= button_to "Remove", cart_item_path(product), method: :delete %>
+
+        </li>
+      <% end %>
+    </ul>
+
+    <p><strong>Subtotal: <%= number_to_currency(@subtotal_cents / 100.0) %> CAD</strong></p>
+
+    <p><%= link_to "Proceed to checkout", checkout_path %></p>
+  <% else %>
+    <p>Your cart is empty.</p>
+  <% end %>
+
+</main>

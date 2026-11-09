@@ -19,7 +19,7 @@ class CartController < ApplicationController
       return
     end
 
-    cart[key] = [cart.fetch(key, 0) + 1, 99].min
+    cart[key] = [ cart.fetch(key, 0) + 1, 99 ].min
     session[:cart] = cart
     redirect_to cart_path, status: :see_other
   end
@@ -45,5 +45,4 @@ class CartController < ApplicationController
     session[:cart] = cart
     redirect_to cart_path, status: :see_other
   end
-
 end

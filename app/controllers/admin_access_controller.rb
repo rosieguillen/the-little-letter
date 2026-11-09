@@ -4,10 +4,10 @@ class AdminAccessController < ApplicationController
 
     def new
     end
-    
+
 
     def create
-        credentials = params.expect(admin: [:username, :password])
+        credentials = params.expect(admin: [ :username, :password ])
         admin = Admin.authenticate_by(
             username: credentials[:username].to_s.strip,
             password: credentials[:password].to_s.strip
@@ -32,7 +32,7 @@ class AdminAccessController < ApplicationController
         redirect_to admin_sign_in_path, status: :see_other
     end
 
-    private 
+    private
 
     def require_admin
         @admin = Admin.find_by(id: session[:admin_id])

@@ -2,8 +2,8 @@ class Product < ApplicationRecord
   belongs_to :category
 
   has_one_attached :photo do |attachable|
-    attachable.variant :thumbnail, resize_to_limit: [240, 420]
-    attachable.variant :detail, resize_to_limit: [800, 800]
+    attachable.variant :thumbnail, resize_to_limit: [ 240, 420 ]
+    attachable.variant :detail, resize_to_limit: [ 800, 800 ]
   end
   validate :acceptable_photo
 
@@ -26,7 +26,7 @@ class Product < ApplicationRecord
 
   def acceptable_photo
     return unless photo.attached?
-  
+
     unless photo.blob.content.content_type.in?(%w[image/jpeg image/png image/webp])
       errors.add(:photo, "must be a JPEG, PNG, or WebP image")
     end

@@ -10,7 +10,7 @@ class CheckoutOrder
             phone: details.phone,
             street: details.street,
             city: details.city,
-            postal_code: details.postal_code,
+            postal_code: details.postal_code
         }
 
         Order.transaction do
@@ -37,7 +37,7 @@ class CheckoutOrder
                     unit_price_cents: line.fetch(:unit_price_cents)
                 )
             end
-            
+
             order
         end
     end

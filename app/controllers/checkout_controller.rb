@@ -1,6 +1,6 @@
 require "digest"
 class CheckoutController < ApplicationController
-    before_action :require_cart_items, only: [:new, :review, :create]
+    before_action :require_cart_items, only: [ :new, :review, :create ]
 
     def new
         @details = CheckoutDetails.new
@@ -9,21 +9,21 @@ class CheckoutController < ApplicationController
     def review
         return unless prepare_invoice
 
-        session[:checkout_details] = invoice_signature
+        session[:checkout_quote] = invoice_signature
         render :review
     end
 
     def create
         return unless prepare_invoice
 
-        if session[:checkout_details] != invoice_signature
+        if session[:checkout_quote] != invoice_signature
             session[:checkout_quote] = invoice_signature
             flash.now[:alert] = "Your cart has changed since you last reviewed your order. Please review your order again before placing it."
-            render :review. status: :unprocessable_entity
+            render :review, status: :unprocessable_entity
             return
         end
 
-        order = CheckoutOrder.place!(details: checkout_details, invoice: @invoice)
+        order = CheckoutOrder.place!(details: @details, invoice: @invoice)
         session.delete(:cart)
         session.delete(:checkout_quote)
         session[:last_order_id] = order.id
@@ -51,7 +51,7 @@ class CheckoutController < ApplicationController
   end
 
   def checkout_params
-    params.expect(checkout_details: [:name, :email, :phone, :street, :city, :postal_code, :province])
+    params.expect(checkout_details: [ :name, :email, :phone, :street, :city, :postal_code, :province ])
   end
 
   def invoice_signature
@@ -60,13 +60,13 @@ class CheckoutController < ApplicationController
       checkout_params.to_h,
       @invoice.lines,
       @invoice.taxes,
-      [province.gst_rate, province.pst_rate, province.hst_rate]
+      [ province.gst_rate, province.pst_rate, province.hst_rate ]
     ].to_json)
   end
 
 
     def require_cart_items
         quantities = session[:cart] || {}
-        redirect_to_cart_path unless Product.exists?(id: quantities.keys)
+        redirect_to cart_path unless Product.exists?(id: quantities.keys)
     end
 end

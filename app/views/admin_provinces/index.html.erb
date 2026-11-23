@@ -1,0 +1,33 @@
+<main>
+  <h1>Province and territory tax rates</h1>
+  <p><%= link_to "Back to dashboard", admin_dashboard_path %></p>
+  <% if flash[:notice] %>
+    <p role="status"><%= flash[:notice] %></p>
+  <% end %>
+  <p>These rates apply to new checkout invoices. Completed orders keep their saved rates and totals.</p>
+
+  <div class="tax-table-scroll">
+    <table class="tax-table">
+      <thead>
+        <tr>
+          <th scope="col">Province or territory</th>
+          <th scope="col">GST</th>
+          <th scope="col">PST / QST</th>
+          <th scope="col">HST</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @provinces.each do |province| %>
+          <tr>
+            <th scope="row"><%= province.name %> (<%= province.code %>)</th>
+            <% [province.gst_rate, province.pst_rate, province.hst_rate].each do |rate| %>
+              <td><%= number_to_percentage(rate * 100, precision: 3, strip_insignificant_zeros: true) %></td>
+            <% end %>
+            <td><%= link_to "Edit #{province.name}", edit_admin_province_path(province) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</main>

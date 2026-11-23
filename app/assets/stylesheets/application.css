@@ -32,3 +32,11 @@
   margin-block: 0.35rem;
 }
 .order-totals dd { margin: 0; text-align: right; }
+
+.tax-table-scroll { overflow-x: auto; }
+.tax-table { width: 100%; border-collapse: collapse; }
+.tax-table th, .tax-table td {
+  text-align: left;
+  padding: 0.65rem;
+  border-bottom: 1px solid var(--border, #d8dfd5);
+}

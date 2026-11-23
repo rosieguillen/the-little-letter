@@ -1,0 +1,24 @@
+<main>
+  <h1>Edit tax rates for <%= @province.name %></h1>
+  <p><%= link_to "Back to tax rates", admin_provinces_path %></p>
+  <p>Enter percentages, such as 5 for 5% or 9.975 for 9.975%. Enter 0 for a tax that does not apply.</p>
+
+  <% if @province.errors.any? %>
+    <ul role="alert">
+      <% @province.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <%= form_with model: @province, url: admin_province_path(@province) do |form| %>
+    <% {gst_rate: "GST (%)", pst_rate: @province.code == "QC" ? "QST (%)" : "PST (%)", hst_rate: "HST (%)"}.each do |field, label| %>
+      <p>
+        <%= form.label field, label %>
+        <%= form.number_field field, value: params.dig(:province, field) || (@province.public_send(field) * 100).to_s("F"),
+          min: 0, max: 100, step: "0.001", required: true %>
+      </p>
+    <% end %>
+    <%= form.submit "Save tax rates" %>
+  <% end %>
+</main>

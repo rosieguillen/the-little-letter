@@ -20,6 +20,7 @@ get "categories/:slug", to: "storefront#index", as: :category
     # Defines the root path route ("/")
     # root "posts#index"
     scope path: "/admin", as: "admin" do
+    resources :provinces, controller: "admin_provinces", only: [ :index, :edit, :update ]
     resources :orders, controller: "admin_orders", only: [ :index ]
     resources :products, controller: "admin_products",
       only: [ :new, :create, :edit, :update, :destroy ]

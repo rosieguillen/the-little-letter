@@ -1,0 +1,57 @@
+<main class="order-history">
+  <h1>Order history</h1>
+  <p><%= link_to "Back to dashboard", admin_dashboard_path %></p>
+
+  <% if @orders.empty? %>
+    <p>No orders have been placed yet.</p>
+  <% end %>
+
+  <% @orders.each do |order| %>
+    <article class="order-card" aria-labelledby="order-<%= order.id %>">
+      <h2 id="order-<%= order.id %>">Order #<%= order.id %></h2>
+      <p>Placed <%= order.created_at.strftime("%B %d, %Y at %H:%M %Z") %></p>
+      <p>Customer #<%= order.customer_id %> — <%= order.customer.name %></p>
+      <h3>Contact and delivery at checkout</h3>
+      <p><%= order.name %> — <%= order.email %></p>
+      <% if order.phone.present? %>
+        <p>Phone: <%= order.phone %></p>
+      <% end %>
+      <p><%= order.street %><br>
+        <%= order.city %>, <%= order.province_code %> <%= order.postal_code %></p>
+
+      <div class="order-items-scroll">
+        <table class="order-items">
+          <caption>Purchased items for order #<%= order.id %></caption>
+          <thead>
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Unit price</th>
+              <th scope="col">Line total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% order.order_items.sort_by(&:id).each do |item| %>
+              <tr>
+                <td><%= item.product_name %></td>
+                <td><%= item.quantity %></td>
+                <td><%= number_to_currency(item.unit_price_cents / 100.0) %></td>
+                <td><%= number_to_currency(item.unit_price_cents * item.quantity / 100.0) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <dl class="order-totals">
+        <div><dt>Subtotal</dt><dd><%= number_to_currency(order.subtotal_cents / 100.0) %> CAD</dd></div>
+        <div><dt>GST (<%= number_to_percentage(order.gst_rate * 100, precision: 3, strip_insignificant_zeros: true) %>)</dt><dd><%= number_to_currency(order.gst_cents / 100.0) %> CAD</dd></div>
+        <div><dt><%= order.province_code == "QC" ? "QST" : "PST" %> (<%= number_to_percentage(order.pst_rate * 100, precision: 3, strip_insignificant_zeros: true) %>)</dt><dd><%= number_to_currency(order.pst_cents / 100.0) %> CAD</dd></div>
+        <div><dt>HST (<%= number_to_percentage(order.hst_rate * 100, precision: 3, strip_insignificant_zeros: true) %>)</dt><dd><%= number_to_currency(order.hst_cents / 100.0) %> CAD</dd></div>
+        <div><dt><strong>Grand total</strong></dt><dd><strong><%= number_to_currency(order.total_cents / 100.0) %> CAD</strong></dd></div>
+      </dl>
+    </article>
+  <% end %>
+
+  <%= paginate @orders %>
+</main>

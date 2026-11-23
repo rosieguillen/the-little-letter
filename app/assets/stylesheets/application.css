@@ -8,3 +8,27 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+.order-card {
+  margin-block: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border, #d8dfd5);
+  border-radius: 0.75rem;
+  background: var(--card, #fffdf8);
+}
+.order-items-scroll { overflow-x: auto; }
+.order-items { width: 100%; border-collapse: collapse; }
+.order-items caption { text-align: left; margin-bottom: 0.5rem; }
+.order-items th, .order-items td {
+  padding: 0.65rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border, #d8dfd5);
+}
+.order-totals { max-width: 27rem; margin-left: auto; }
+.order-totals > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block: 0.35rem;
+}
+.order-totals dd { margin: 0; text-align: right; }

@@ -1,0 +1,11 @@
+<nav class="store-breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><%= link_to "Home", root_path %></li>
+    <% if local_assigns[:product] %>
+      <li><%= link_to category.name, category_path(category.slug) %></li>
+      <li><span aria-current="page"><%= product.name %></span></li>
+    <% else %>
+      <li><span aria-current="page"><%= category.name %></span></li>
+    <% end %>
+  </ol>
+</nav>

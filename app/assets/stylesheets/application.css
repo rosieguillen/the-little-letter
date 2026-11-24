@@ -40,3 +40,19 @@
   padding: 0.65rem;
   border-bottom: 1px solid var(--border, #d8dfd5);
 }
+
+/* Location-based breadcrumbs */
+.store-breadcrumbs { margin-bottom: 1.25rem; font-size: 0.88rem; }
+.store-breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.store-breadcrumbs li { display: inline; overflow-wrap: anywhere; }
+.store-breadcrumbs li + li::before { content: "/"; margin-right: 0.6rem; color: #65786b; }
+.store-breadcrumbs a { display: inline-block; padding-block: 0.35rem; }
+.store-breadcrumbs [aria-current="page"] { color: #45564a; font-weight: 600; }

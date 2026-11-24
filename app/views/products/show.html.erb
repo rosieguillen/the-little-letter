@@ -1,5 +1,5 @@
 <main>
-  <p><%= link_to "Back to all stationery", root_path %></p>
+  <%= render "shared/breadcrumbs", category: @product.category, product: @product %>
 
   <h1><%= @product.name %></h1>
   <% if @product.photo.attached? %>

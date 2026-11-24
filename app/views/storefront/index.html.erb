@@ -1,4 +1,7 @@
 <main>
+  <% if @category %>
+    <%= render "shared/breadcrumbs", category: @category %>
+  <% end %>
   <h1>The Little Letter</h1>
   <p>A Winnipeg stationery shop for everyday notes, plans, and gifts.</p>
 </main>

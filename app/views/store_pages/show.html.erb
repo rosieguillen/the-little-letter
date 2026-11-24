@@ -1,0 +1,19 @@
+<% content_for :title, "#{@page.title} | The Little Letter" %>
+<main class="store-information">
+  <p><%= link_to "Back to shop", root_path %></p>
+  <h1><%= @page.title %></h1>
+  <div class="store-page-copy"><%= @page.body %></div>
+  <% if @page.slug == "contact" %>
+    <dl class="store-contact-details">
+      <% if @page.email.present? %>
+        <div><dt>Email</dt><dd><%= mail_to @page.email %></dd></div>
+      <% end %>
+      <% if @page.phone.present? %>
+        <div><dt>Phone</dt><dd><%= @page.phone %></dd></div>
+      <% end %>
+      <% if @page.opening_hours.present? %>
+        <div><dt>Opening hours</dt><dd class="store-page-copy"><%= @page.opening_hours %></dd></div>
+      <% end %>
+    </dl>
+  <% end %>
+</main>

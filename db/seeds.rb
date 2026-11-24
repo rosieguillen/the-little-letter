@@ -41,6 +41,23 @@ catalogue = {
 
 colours = [ "Fern", "Oat", "Ink", "Clay", "Lilac" ]
 
+# Each seed photograph represents a design shared by its colour variants.
+attach_seed_photo = lambda do |product, design|
+  next if product.nil? || product.photo.attached?
+
+  image_directory = Rails.root.join("db", "seed_images")
+  image_path = image_directory.join("#{product.name.parameterize}.jpg")
+  image_path = image_directory.join("#{design.parameterize}.jpg") unless image_path.file?
+  next unless image_path.file?
+
+  filename = image_path.basename.to_s
+
+  File.open(image_path, "rb") do |image|
+    product.photo.attach(io: image, filename: filename, content_type: "image/jpeg")
+  end
+  raise ActiveRecord::RecordInvalid.new(product) if product.errors.any?
+end
+
 catalogue.each do |category_name, products|
   category = Category.find_or_create_by!(slug: category_name.parameterize) do |record|
     record.name = category_name
@@ -48,10 +65,11 @@ catalogue.each do |category_name, products|
 
   products.each do |name, price_cents|
     colours.each do |colour|
-      category.products.find_or_create_by!(name: "#{colour} #{name}") do |product|
+      product = category.products.find_or_create_by!(name: "#{colour} #{name}") do |product|
         product.description = "#{name} in #{colour.downcase}, from The Little Letter."
         product.price_cents = price_cents
       end
+      attach_seed_photo.call(product, name)
     end
   end
 end
@@ -81,3 +99,4 @@ province_rates.each do |code, name, gst, pst, hst|
     province.hst_rate = hst
   end
 end
+load Rails.root.join("db/seeds/store_pages.rb")

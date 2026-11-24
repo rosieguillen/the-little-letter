@@ -1,23 +1,70 @@
+<% if @product.errors.any? %>
+  <div class="product-form-errors" role="alert">
+    <h2>Please check the product details</h2>
+    <ul>
+      <% @product.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
-<%= form_with model: @product, url: form_url do |form| %>
-    <p><%= form.label :name %> <%= form.text_field :name, required: true %></p>
-    <p><%= form.label :description %> <%= form.text_area :description, required: true %></p>
-    <p>
-        <%= form.label :category_id, "Category" %>
-        <%= form.collection_select :category_id, Category.order(:name), :id, :name %>
-    </p>
-    <p>
-        <%= form.label :price_cents, "Price in cents" %>
-        <%= form.number_field :price_cents, min: 1, required: true %>
-    </p>
-    <p>
-        <%= form.label :sale_price_cents, "Sale price in cents (optional)" %>
-        <%= form.number_field :sale_price_cents, min: 1 %>
-    </p>
-    <p>
-        <%= form.label :photo, "Product photo (optional)" %>
-        <%= form.file_field :photo, accept: "image/jpeg,image/png,image/webp" %>
-    </p>
+<%= form_with model: @product, url: form_url, class: "staff-product-form" do |form| %>
+  <div class="product-editor-grid">
+    <div class="product-editor-main">
+      <fieldset class="product-editor-section">
+        <legend>Product details</legend>
+        <div class="product-editor-field">
+          <%= form.label :name, "Product name" %>
+          <%= form.text_field :name, required: true %>
+        </div>
+        <div class="product-editor-field">
+          <%= form.label :description %>
+          <%= form.text_area :description, rows: 5, required: true %>
+        </div>
+        <div class="product-editor-field">
+          <%= form.label :category_id, "Category" %>
+          <%= form.collection_select :category_id, Category.order(:name), :id, :name %>
+        </div>
+      </fieldset>
 
-    <%= form.submit submit_label %>
-  <% end %>
+      <fieldset class="product-editor-section">
+        <legend>Pricing</legend>
+        <p class="product-editor-help" id="product-pricing-help">Enter prices in Canadian cents. For example, 795 means $7.95 CAD.</p>
+        <div class="product-editor-prices">
+          <div class="product-editor-field">
+            <%= form.label :price_cents, "Regular price in cents" %>
+            <%= form.number_field :price_cents, min: 1, required: true, aria: { describedby: "product-pricing-help" } %>
+          </div>
+          <div class="product-editor-field">
+            <%= form.label :sale_price_cents, "Sale price in cents (optional)" %>
+            <%= form.number_field :sale_price_cents, min: 1, aria: { describedby: "product-sale-help" } %>
+            <p class="product-editor-help" id="product-sale-help">Leave blank for the regular price. A sale price must be lower.</p>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+
+    <fieldset class="product-editor-section product-editor-photo">
+      <legend>Product photo</legend>
+      <% if @product.photo.attached? && @product.photo.blob.persisted? %>
+        <div class="product-editor-preview">
+          <%= image_tag @product.photo.variant(:thumbnail), alt: @product.name %>
+        </div>
+        <p class="product-editor-help">Current photo. Choose a file below to replace it.</p>
+      <% else %>
+        <p class="product-editor-photo-empty">Add a photo to help shoppers see this product.</p>
+      <% end %>
+      <div class="product-editor-field">
+        <%= form.label :photo, "Upload photo (optional)" %>
+        <%= form.file_field :photo, accept: "image/jpeg,image/png,image/webp", aria: { describedby: "product-photo-help" } %>
+        <p class="product-editor-help" id="product-photo-help">JPEG, PNG, or WebP. Maximum 5 MB.</p>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="product-editor-actions">
+    <%= form.submit submit_label, class: "dashboard-button dashboard-button-primary" %>
+    <%= link_to "Cancel", admin_dashboard_path, class: "dashboard-button dashboard-button-secondary" %>
+  </div>
+<% end %>

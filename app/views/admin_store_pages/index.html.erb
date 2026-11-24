@@ -1,0 +1,25 @@
+<main>
+  <header class="dashboard-heading">
+    <div>
+      <p class="dashboard-eyebrow">Store information</p>
+      <h1>Manage pages</h1>
+      <p class="dashboard-account">Update the information shoppers see about your store.</p>
+    </div>
+    <%= link_to "Back to dashboard", admin_dashboard_path, class: "dashboard-button dashboard-button-secondary" %>
+  </header>
+  <% if flash[:notice] %>
+    <p role="status"><%= flash[:notice] %></p>
+  <% end %>
+  <ul class="category-management-list category-panel">
+    <% @pages.each do |page| %>
+      <li>
+        <div>
+          <strong><%= page.title %></strong>
+          <%= link_to "View public page", page.slug == "about" ? about_path : contact_path %>
+        </div>
+        <%= link_to "Edit", edit_admin_store_page_path(page), class: "dashboard-button dashboard-button-secondary",
+          aria: { label: "Edit #{page.title}" } %>
+      </li>
+    <% end %>
+  </ul>
+</main>

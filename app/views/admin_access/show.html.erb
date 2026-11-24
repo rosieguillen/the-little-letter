@@ -1,38 +1,75 @@
-<main>
-    <h1>Store dashboard</h1>
-    <p>Signed in as <%= @admin.username %>.</p>
-    <%= button_to "Sign out", admin_sign_out_path, method: :delete %>
+<main class="staff-dashboard">
+  <header class="dashboard-heading">
+    <div>
+      <p class="dashboard-eyebrow">Staff workspace</p>
+      <h1>Store dashboard</h1>
+      <p class="dashboard-account">Signed in as <strong><%= @admin.username %></strong></p>
+    </div>
+    <%= button_to "Sign out", admin_sign_out_path, method: :delete, class: "dashboard-button dashboard-button-secondary" %>
+  </header>
 
-    <p><%= link_to "View orders", admin_orders_path %></p>
-    <p><%= link_to "Manage tax rates", admin_provinces_path %></p>
-
-    <h2>Products</h2>
-
-    <p><%= link_to "New product", new_admin_product_path %></p>
-    <p><%= link_to "Manage categories", admin_categories_path %></p>
-
-<table>
-  <thead>
-    <tr>
-      <th scope="col">Product</th>
-      <th scope="col">Category</th>
-      <th scope="col">Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @products.each do |product| %>
-      <tr>
-        <td><%= link_to product.name, product_path(product) %></td>
-        <td><%= product.category.name %></td>
-        <td><%= render "products/price", product: product %></td>
-        <td><%= link_to "Edit", edit_admin_product_path(product) %>
-            <%= button_to "Delete", admin_product_path(product), method: :delete,
-            form: { data: { turbo_confirm: "Delete this product?" } } %> </td>
-      </tr>
+  <nav class="dashboard-shortcuts" aria-label="Store management">
+    <%= link_to admin_store_pages_path, class: "dashboard-shortcut" do %>
+      <strong>Store pages <span aria-hidden="true">→</span></strong>
+      <span>Edit About, Contact, and opening hours.</span>
     <% end %>
-  </tbody>
-</table>
+    <%= link_to admin_orders_path, class: "dashboard-shortcut" do %>
+      <strong>Order history <span aria-hidden="true">→</span></strong>
+      <span>Review customers, purchased items, and invoices.</span>
+    <% end %>
+    <%= link_to admin_categories_path, class: "dashboard-shortcut" do %>
+      <strong>Categories <span aria-hidden="true">→</span></strong>
+      <span>Organize your catalogue and rename categories.</span>
+    <% end %>
+    <%= link_to admin_provinces_path, class: "dashboard-shortcut" do %>
+      <strong>Tax rates <span aria-hidden="true">→</span></strong>
+      <span>Manage rates for provinces and territories.</span>
+    <% end %>
+  </nav>
 
-<%= paginate @products %>
+  <section class="dashboard-catalogue" aria-labelledby="dashboard-products">
+    <div class="dashboard-section-heading">
+      <div>
+        <h2 id="dashboard-products">Products</h2>
+        <p><%= pluralize(@products.total_count, "product") %> in your catalogue</p>
+      </div>
+      <%= link_to "Add product", new_admin_product_path, class: "dashboard-button dashboard-button-primary" %>
+    </div>
 
+    <% if @products.any? %>
+      <div class="dashboard-table-scroll" role="region" aria-label="Product management" tabindex="0">
+        <table class="dashboard-table">
+          <thead>
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Category</th>
+              <th scope="col">Price</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @products.each do |product| %>
+              <tr>
+                <th scope="row"><%= link_to product.name, product_path(product) %></th>
+                <td><span class="dashboard-category"><%= product.category.name %></span></td>
+                <td class="dashboard-price"><%= render "products/price", product: product %></td>
+                <td>
+                  <div class="dashboard-row-actions">
+                    <%= link_to "Edit", edit_admin_product_path(product), class: "dashboard-button dashboard-button-secondary",
+                      aria: { label: "Edit #{product.name}" } %>
+                    <%= button_to "Delete", admin_product_path(product), method: :delete,
+                      class: "dashboard-button dashboard-button-delete", aria: { label: "Delete #{product.name}" },
+                      form: { data: { turbo_confirm: "Delete #{product.name}?" } } %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="dashboard-pagination"><%= paginate @products %></div>
+    <% else %>
+      <p class="dashboard-empty">Your catalogue is empty. Add a product to start stocking the shop.</p>
+    <% end %>
+  </section>
 </main>

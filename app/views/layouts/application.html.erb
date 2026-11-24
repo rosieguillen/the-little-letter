@@ -24,6 +24,18 @@
   </head>
 
   <body>
+    <header class="site-header">
+      <%= link_to root_path, class: "site-logo" do %>
+      <%= image_tag "the-little-letter-logo.png", alt: "The Little Letter home" %>
+    <% end %>
+
+      <nav class="site-navigation" aria-label="Main navigation">
+        <%= link_to "About", about_path, class: "site-nav-link" %>
+        <%= link_to "Contact", contact_path, class: "site-nav-link" %>
+        <%= link_to "Cart", cart_path, class: "site-nav-link" %>
+        <%= link_to "Staff login", admin_sign_in_path, class: "site-nav-link" %>
+      </nav>
+    </header>
     <%= yield %>
   </body>
 </html>

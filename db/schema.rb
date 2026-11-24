@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_08_011321) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_23_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -125,6 +125,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_08_011321) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_provinces_on_code", unique: true
+  end
+
+  create_table "store_pages", force: :cascade do |t|
+    t.string "slug", null: false
+    t.string "title", null: false
+    t.text "body", null: false
+    t.string "email"
+    t.string "phone"
+    t.text "opening_hours"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_store_pages_on_slug", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

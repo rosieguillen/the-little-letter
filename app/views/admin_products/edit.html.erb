@@ -1,7 +1,11 @@
-
-<main>
-  <h1>Edit <%= @product.name %></h1>
-  <p><%= link_to "Back to dashboard", admin_dashboard_path %></p>
-
+<main class="staff-product-editor">
+  <header class="dashboard-heading">
+    <div>
+      <p class="dashboard-eyebrow">Catalogue management</p>
+      <h1>Edit product</h1>
+      <p class="dashboard-account"><%= @product.name %></p>
+    </div>
+    <%= link_to "Back to dashboard", admin_dashboard_path, class: "dashboard-button dashboard-button-secondary" %>
+  </header>
   <%= render "form", form_url: admin_product_path(@product), submit_label: "Save changes" %>
 </main>

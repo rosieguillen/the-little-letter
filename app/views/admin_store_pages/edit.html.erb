@@ -1,0 +1,47 @@
+<main>
+  <header class="dashboard-heading">
+    <div>
+      <p class="dashboard-eyebrow">Store information</p>
+      <h1>Edit <%= @page.title %></h1>
+    </div>
+    <%= link_to "Back to pages", admin_store_pages_path, class: "dashboard-button dashboard-button-secondary" %>
+  </header>
+
+  <section class="category-panel category-form-panel store-page-editor">
+    <% if @page.errors.any? %>
+      <ul class="category-errors" role="alert">
+        <% @page.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    <% end %>
+    <%= form_with model: @page, url: admin_store_page_path(@page), class: "store-page-form" do |form| %>
+      <div class="product-editor-field">
+        <%= form.label :title, "Page title" %>
+        <%= form.text_field :title, required: true %>
+      </div>
+      <div class="product-editor-field">
+        <%= form.label :body, "Page content" %>
+        <%= form.text_area :body, rows: 8, required: true %>
+      </div>
+      <% if @page.slug == "contact" %>
+        <div class="product-editor-field">
+          <%= form.label :email, "Store email (optional)" %>
+          <%= form.email_field :email %>
+        </div>
+        <div class="product-editor-field">
+          <%= form.label :phone, "Store phone (optional)" %>
+          <%= form.telephone_field :phone %>
+        </div>
+        <div class="product-editor-field">
+          <%= form.label :opening_hours, "Opening hours (optional)" %>
+          <%= form.text_area :opening_hours, rows: 4 %>
+        </div>
+      <% end %>
+      <div class="product-editor-actions">
+        <%= form.submit "Save page", class: "dashboard-button dashboard-button-primary" %>
+        <%= link_to "Cancel", admin_store_pages_path, class: "dashboard-button dashboard-button-secondary" %>
+      </div>
+    <% end %>
+  </section>
+</main>

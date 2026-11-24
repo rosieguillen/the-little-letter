@@ -27,7 +27,7 @@ class Product < ApplicationRecord
   def acceptable_photo
     return unless photo.attached?
 
-    unless photo.blob.content.content_type.in?(%w[image/jpeg image/png image/webp])
+    unless photo.blob.content_type.in?(%w[image/jpeg image/png image/webp])
       errors.add(:photo, "must be a JPEG, PNG, or WebP image")
     end
 

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 root "storefront#index"
+get "about", to: "store_pages#show", defaults: { slug: "about" }, as: :about
+get "contact", to: "store_pages#show", defaults: { slug: "contact" }, as: :contact
 get "categories/:slug", to: "storefront#index", as: :category
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   resources :products, only: [ :show ]
@@ -20,6 +22,7 @@ get "categories/:slug", to: "storefront#index", as: :category
     # Defines the root path route ("/")
     # root "posts#index"
     scope path: "/admin", as: "admin" do
+    resources :store_pages, controller: "admin_store_pages", only: [ :index, :edit, :update ]
     resources :provinces, controller: "admin_provinces", only: [ :index, :edit, :update ]
     resources :orders, controller: "admin_orders", only: [ :index ]
     resources :products, controller: "admin_products",

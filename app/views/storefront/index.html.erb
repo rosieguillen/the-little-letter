@@ -1,39 +1,42 @@
-<main>
+<main class="storefront">
   <% if @category %>
     <%= render "shared/breadcrumbs", category: @category %>
   <% end %>
-  <h1>The Little Letter</h1>
-  <p>A Winnipeg stationery shop for everyday notes, plans, and gifts.</p>
-</main>
+  <p class="storefront-intro">A Winnipeg stationery shop for everyday notes, plans, and gifts.</p>
 
-<nav aria-label="Product categories">
-  <ul>
-    <li><%= link_to "All stationery", root_path %></li>
-    <% @categories.each do |category| %>
-      <li><%= link_to category.name, category_path(category.slug) %></li>
-    <% end %>
-  </ul>
-</nav>
+  <nav class="catalogue-navigation" aria-label="Product categories">
+    <ul>
+      <li><%= link_to "All stationery", root_path, aria: { current: @category.nil? ? "page" : nil } %></li>
+      <% @categories.each do |category| %>
+        <li><%= link_to category.name, category_path(category.slug),
+          aria: { current: @category == category ? "page" : nil } %></li>
+      <% end %>
+    </ul>
+  </nav>
 
-<%= form_with url: root_path, method: :get do |form| %>
-  <%= form.label :q, "Search stationery" %>
-  <%= form.search_field :q, value: @keyword %>
+  <%= form_with url: root_path, method: :get, class: "catalogue-search" do |form| %>
+    <div class="catalogue-search-field">
+      <%= form.label :q, "Search stationery" %>
+      <%= form.search_field :q, value: @keyword, placeholder: "Search notebooks, pens, and more" %>
+    </div>
+    <div class="catalogue-search-field">
+      <%= form.label :category_slug, "Category" %>
+      <%= form.collection_select :category_slug, @categories, :slug, :name,
+        { include_blank: "All categories", selected: @category&.slug } %>
+    </div>
+    <div class="catalogue-search-field">
+      <%= form.label :filter, "Show" %>
+      <%= form.select :filter,
+        [["All products", "all"], ["On sale", "sale"], ["New arrivals", "new"]],
+        { selected: @filter } %>
+    </div>
+    <%= form.submit "Search", class: "catalogue-search-button" %>
+  <% end %>
 
-  <%= form.label :category_slug, "Category" %>
-  <%= form.collection_select :category_slug, @categories, :slug, :name,
-    { include_blank: "All categories", selected: @category&.slug } %>
-  <%= form.label :filter, "Show" %>
-  <%= form.select :filter,
-    [["All products", "all"], ["On sale", "sale"], ["New Arrivals", "new"]],
-    { selected: @filter } %>
 
-  <%= form.submit "Search" %>
-<% end %>
+<h1><%= @category ? @category.name : "Shop stationery" %></h1>
 
-
-<h2><%= @category ? @category.name : "Shop stationery" %></h2>
-
-<ul>
+<ul class="product-grid">
   <% @products.each do |product| %>
     <li>
       <h3><%= link_to product.name, product_path(product) %></h3>
@@ -47,3 +50,5 @@
 </ul>
 
 <%= paginate @products %>
+
+</main>

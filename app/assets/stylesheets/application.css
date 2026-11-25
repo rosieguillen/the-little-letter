@@ -94,17 +94,40 @@ a {
 .site-navigation {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem;
+  border: 1px solid #d8e4dc;
+  border-radius: 0.85rem;
+  background: #edf4ee;
 }
 
 .site-nav-link {
-  display: inline-block;
-  padding: 0.45rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.9rem;
+  border: 0;
   border-radius: 0.5rem;
-  background: #91c1aa;
-  color: #202421;
-  font-weight: 700;
+  background: transparent;
+  color: var(--green);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
   text-decoration: none;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.site-nav-link:hover { background: #dcebe0; }
+.site-nav-link[aria-current="page"] { background: var(--green); color: #fff; }
+
+@media (max-width: 48rem) {
+  .site-navigation { width: 100%; }
+  .site-navigation > a,
+  .site-navigation > form { flex: 1 1 auto; }
+  .site-navigation > form .site-nav-link { width: 100%; }
 }
 
 .order-card {
@@ -455,3 +478,9 @@ a {
 .store-contact-details dt { font-weight: 700; color: var(--green); }
 .store-contact-details dd { margin: 0.4rem 0 0; overflow-wrap: anywhere; }
 .store-page-editor { max-width: 48rem; }
+
+.customer-account-page { max-width: 42rem; margin: 0 auto 3rem; }
+.customer-account-page h1 { font-size: clamp(2rem, 5vw, 3rem); }
+.customer-delivery-heading { margin-top: 2rem !important; }
+.site-navigation form { margin: 0; }
+.customer-logout { border: 0; font: inherit; font-weight: 700; cursor: pointer; }

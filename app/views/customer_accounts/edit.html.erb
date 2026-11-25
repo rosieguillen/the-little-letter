@@ -1,0 +1,17 @@
+<main class="customer-account-page">
+  <h1>My account</h1>
+  <p>Signed in as <strong><%= @customer.username %></strong>.</p>
+  <% if flash[:notice] %>
+    <p role="status"><%= flash[:notice] %></p>
+  <% end %>
+  <%= render "errors" %>
+  <%= form_with model: @customer, url: customer_account_path, class: "category-panel category-form-panel" do |form| %>
+    <h2>Saved delivery details</h2>
+    <p>These details will fill your checkout form automatically.</p>
+    <%= render "details", form: form %>
+    <div class="product-editor-actions">
+      <%= form.submit "Save delivery details", class: "dashboard-button dashboard-button-primary" %>
+      <%= link_to "Continue shopping", root_path, class: "dashboard-button dashboard-button-secondary" %>
+    </div>
+  <% end %>
+</main>

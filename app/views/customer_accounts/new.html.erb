@@ -1,0 +1,27 @@
+<main class="customer-account-page">
+  <h1>Create your account</h1>
+  <p>Save your delivery details for a quicker checkout.</p>
+  <p>Already registered? <%= link_to "Log in", customer_sign_in_path %>.</p>
+  <%= render "errors" %>
+  <%= form_with model: @customer, url: customer_sign_up_path, class: "category-panel category-form-panel" do |form| %>
+    <h2>Account details</h2>
+    <div class="product-editor-field">
+      <%= form.label :username %>
+      <%= form.text_field :username, required: true, autocomplete: "username" %>
+    </div>
+    <div class="product-editor-field">
+      <%= form.label :password %>
+      <%= form.password_field :password, required: true, minlength: 12, autocomplete: "new-password", aria: { describedby: "password-help" } %>
+      <p class="product-editor-help" id="password-help">Use at least 12 characters. Passwords are case-sensitive.</p>
+    </div>
+    <div class="product-editor-field">
+      <%= form.label :password_confirmation, "Confirm password" %>
+      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password" %>
+    </div>
+    <h2 class="customer-delivery-heading">Delivery details</h2>
+    <%= render "details", form: form %>
+    <div class="product-editor-actions">
+      <%= form.submit "Create account", class: "dashboard-button dashboard-button-primary" %>
+    </div>
+  <% end %>
+</main>

@@ -1,6 +1,6 @@
 
 class CheckoutOrder
-    def self.place!(details:, invoice:)
+    def self.place!(details:, invoice:, customer: nil)
         raise ArgumentError, "Cannot place order with empty invoice" if invoice.lines.empty?
 
         province = invoice.province
@@ -14,7 +14,7 @@ class CheckoutOrder
         }
 
         Order.transaction do
-            customer = Customer.create!(**delivery, province: province)
+            customer ||= Customer.create!(**delivery, province: province)
 
             order = customer.orders.create!(
                 **delivery,

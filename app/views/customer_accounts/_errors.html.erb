@@ -1,0 +1,7 @@
+<% if @customer.errors.any? %>
+  <ul class="category-errors" role="alert">
+    <% @customer.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>

@@ -4,16 +4,6 @@
   <% end %>
   <p class="storefront-intro">A Winnipeg stationery shop for everyday notes, plans, and gifts.</p>
 
-  <nav class="catalogue-navigation" aria-label="Product categories">
-    <ul>
-      <li><%= link_to "All stationery", root_path, aria: { current: @category.nil? ? "page" : nil } %></li>
-      <% @categories.each do |category| %>
-        <li><%= link_to category.name, category_path(category.slug),
-          aria: { current: @category == category ? "page" : nil } %></li>
-      <% end %>
-    </ul>
-  </nav>
-
   <%= form_with url: root_path, method: :get, class: "catalogue-search" do |form| %>
     <div class="catalogue-search-field">
       <%= form.label :q, "Search stationery" %>

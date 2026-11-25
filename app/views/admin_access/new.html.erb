@@ -1,19 +1,20 @@
-<main>
-  <h1>Staff sign-in</h1>
-
+<main class="customer-account-page">
+  <h1>Staff login</h1>
+  <p>Log in to manage products, categories, and orders.</p>
   <% if flash[:alert] %>
-    <p role="alert"><%= flash[:alert] %></p>
+    <p role="alert" class="category-errors"><%= flash[:alert] %></p>
   <% end %>
-
-  <%= form_with url: admin_sign_in_path, scope: :admin do |form| %>
-    <p>
+  <%= form_with url: admin_sign_in_path, scope: :admin, class: "category-panel category-form-panel" do |form| %>
+    <div class="product-editor-field">
       <%= form.label :username %>
       <%= form.text_field :username, required: true, autocomplete: "username" %>
-    </p>
-    <p>
+    </div>
+    <div class="product-editor-field">
       <%= form.label :password %>
       <%= form.password_field :password, required: true, autocomplete: "current-password" %>
-    </p>
-    <%= form.submit "Sign in" %>
+    </div>
+    <div class="product-editor-actions">
+      <%= form.submit "Log in", class: "dashboard-button dashboard-button-primary" %>
+    </div>
   <% end %>
 </main>

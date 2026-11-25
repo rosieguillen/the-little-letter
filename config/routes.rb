@@ -40,4 +40,11 @@ get "categories/:slug", to: "storefront#index", as: :category
   post "checkout/review", to: "checkout#review", as: :review_checkout
   post "checkout/place", to: "checkout#create", as: :place_order
   get "checkout/confirmation", to: "checkout#confirmation", as: :checkout_confirmation
+  get "sign-up", to: "customer_accounts#new", as: :customer_sign_up
+  post "sign-up", to: "customer_accounts#create"
+  get "login", to: "customer_sessions#new", as: :customer_sign_in
+  post "login", to: "customer_sessions#create"
+  delete "logout", to: "customer_sessions#destroy", as: :customer_sign_out
+  get "account", to: "customer_accounts#edit", as: :customer_account
+  patch "account", to: "customer_accounts#update"
 end

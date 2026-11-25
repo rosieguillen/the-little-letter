@@ -1,0 +1,29 @@
+<div class="product-editor-field">
+  <%= form.label :name, "Full name" %>
+  <%= form.text_field :name, required: true, autocomplete: "name" %>
+</div>
+<div class="product-editor-field">
+  <%= form.label :email %>
+  <%= form.email_field :email, required: true, autocomplete: "email" %>
+</div>
+<div class="product-editor-field">
+  <%= form.label :phone, "Phone (optional)" %>
+  <%= form.telephone_field :phone, autocomplete: "tel" %>
+</div>
+<div class="product-editor-field">
+  <%= form.label :street, "Street address" %>
+  <%= form.text_field :street, required: true, autocomplete: "street-address" %>
+</div>
+<div class="product-editor-field">
+  <%= form.label :city %>
+  <%= form.text_field :city, required: true, autocomplete: "address-level2" %>
+</div>
+<div class="product-editor-field">
+  <%= form.label :province_id, "Province or territory" %>
+  <%= form.collection_select :province_id, Province.order(:name), :id, :name,
+    { prompt: "Select one" }, { required: true, autocomplete: "address-level1" } %>
+</div>
+<div class="product-editor-field">
+  <%= form.label :postal_code %>
+  <%= form.text_field :postal_code, required: true, autocomplete: "postal-code" %>
+</div>

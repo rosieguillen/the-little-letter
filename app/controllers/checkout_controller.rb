@@ -4,6 +4,12 @@ class CheckoutController < ApplicationController
 
     def new
         @details = CheckoutDetails.new
+        if current_customer
+          @details = CheckoutDetails.new(
+            current_customer.attributes.slice("name", "email", "phone", "street", "city", "postal_code")
+              .merge("province" => current_customer.province.code)
+          )
+        end
     end
 
     def review
@@ -23,7 +29,7 @@ class CheckoutController < ApplicationController
             return
         end
 
-        order = CheckoutOrder.place!(details: @details, invoice: @invoice)
+        order = CheckoutOrder.place!(details: @details, invoice: @invoice, customer: current_customer)
         session.delete(:cart)
         session.delete(:checkout_quote)
         session[:last_order_id] = order.id

@@ -34,6 +34,7 @@
         <%= link_to "Contact", contact_path, class: "site-nav-link", aria: { current: current_page?(contact_path) ? "page" : nil } %>
         <%= link_to "Cart", cart_path, class: "site-nav-link", aria: { current: current_page?(cart_path) ? "page" : nil } %>
         <% if current_customer %>
+          <%= link_to "My orders", customer_orders_path, class: "site-nav-link", aria: { current: current_page?(customer_orders_path) ? "page" : nil } %>
           <%= link_to "My account", customer_account_path, class: "site-nav-link", aria: { current: current_page?(customer_account_path) ? "page" : nil } %>
           <%= button_to "Log out", customer_sign_out_path, method: :delete, class: "site-nav-link customer-logout" %>
         <% else %>

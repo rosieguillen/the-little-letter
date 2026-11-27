@@ -45,6 +45,7 @@ get "categories/:slug", to: "storefront#index", as: :category
   get "login", to: "customer_sessions#new", as: :customer_sign_in
   post "login", to: "customer_sessions#create"
   delete "logout", to: "customer_sessions#destroy", as: :customer_sign_out
+  get "account/orders", to: "customer_orders#index", as: :customer_orders
   get "account", to: "customer_accounts#edit", as: :customer_account
   patch "account", to: "customer_accounts#update"
 end

@@ -1,0 +1,17 @@
+<main class="order-history">
+  <h1>My orders</h1>
+  <p>View your purchases and the invoice details saved at checkout.</p>
+  <p><%= link_to "My account", customer_account_path %> &middot; <%= link_to "Continue shopping", root_path %></p>
+  <% if @orders.empty? %>
+    <section class="category-panel">
+      <h2>No orders yet</h2>
+      <p>Orders placed while you are logged in will appear here.</p>
+      <%= link_to "Shop stationery", root_path, class: "dashboard-button dashboard-button-primary" %>
+    </section>
+  <% else %>
+    <% @orders.each do |order| %>
+      <%= render "shared/order_invoice", order: order %>
+    <% end %>
+    <%= paginate @orders %>
+  <% end %>
+</main>

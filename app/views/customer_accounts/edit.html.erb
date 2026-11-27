@@ -1,6 +1,7 @@
 <main class="customer-account-page">
   <h1>My account</h1>
   <p>Signed in as <strong><%= @customer.username %></strong>.</p>
+  <p><%= link_to "View my orders", customer_orders_path, class: "dashboard-button dashboard-button-secondary" %></p>
   <% if flash[:notice] %>
     <p role="status"><%= flash[:notice] %></p>
   <% end %>
